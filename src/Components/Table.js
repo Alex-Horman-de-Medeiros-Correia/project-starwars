@@ -2,10 +2,18 @@ import React, { useContext } from 'react';
 import MyContext from '../Context/MyContext';
 
 function Table() {
-  const { data } = useContext(MyContext);
-
+  const { data, filtra, setFiltra } = useContext(MyContext);
+  const handleHere = ({ target }) => setFiltra(target.value);
   return (
     <section>
+      <input
+        data-testid="name-filter"
+        onChange={ handleHere }
+        type="text"
+        value={ filtra }
+      />
+      <br />
+      <br />
       <table>
         <tbody>
           <tr>
@@ -23,7 +31,8 @@ function Table() {
             <th>Edited</th>
             <th>URL</th>
           </tr>
-          {data.map((element) => (
+
+          {data.filter(({ name }) => name.includes(filtra)).map((element) => (
             <tr key={ element.name }>
               <td>{element.name}</td>
               <td>{element.rotation_period}</td>

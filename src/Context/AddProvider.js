@@ -4,7 +4,7 @@ import MyContext from './MyContext';
 
 function AddProvider({ children }) {
   const [data, setData] = useState([]);
-
+  const [filtra, setFiltra] = useState('');
   const APIdata = async () => {
     const api = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
 
@@ -21,6 +21,8 @@ function AddProvider({ children }) {
 
   const context = {
     data,
+    filtra,
+    setFiltra,
   };
 
   return (
