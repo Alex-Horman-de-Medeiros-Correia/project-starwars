@@ -1,18 +1,18 @@
 import React from 'react';
 import './App.css';
-import Filtrando from './Components/Filtrando';
-import Table from './Components/Table';
-import AddProvider from './Context/AddProvider';
+import Filtrando from './components/Filtrando';
+import Table from './components/Table';
+import AContext from './context/AppContext';
 
 function App() {
   return (
-    <AddProvider>
-      <span>Star Wars System!!!</span>
+    <AContext>
+      <span>App Star Wars Info!</span>
       <br />
       <br />
       <Filtrando />
       <Table />
-    </AddProvider>
+    </AContext>
   );
 }
 

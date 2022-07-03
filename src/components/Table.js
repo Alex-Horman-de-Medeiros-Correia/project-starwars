@@ -1,19 +1,22 @@
-import React, { useContext } from 'react';
-import MyContext from '../Context/MyContext';
+import React, { useEffect, useContext } from 'react';
+import { AppContext } from '../context/AppContext';
+import planetasApi from '../issues/planetasApi';
 
 function Table() {
-  const { data, filtra, setFiltra } = useContext(MyContext);
-  const handleHere = ({ target }) => setFiltra(target.value);
+  const { info, setInfo, setCache } = useContext(AppContext);
+  useEffect(() => {
+    async function mundos() {
+      const negativo = -1;
+
+      const resposta = await planetasApi();
+      setInfo(resposta.sort((a, b) => (a.name < b.name ? negativo : true)));
+      setCache(resposta);
+    }
+    mundos();
+  }, [setInfo, setCache]);
+
   return (
-    <section>
-      <input
-        data-testid="name-filter"
-        onChange={ handleHere }
-        type="text"
-        value={ filtra }
-      />
-      <br />
-      <br />
+    <div>
       <table>
         <tbody>
           <tr>
@@ -31,10 +34,9 @@ function Table() {
             <th>Edited</th>
             <th>URL</th>
           </tr>
-
-          {data.filter(({ name }) => name.includes(filtra)).map((element) => (
+          {info.map((element) => (
             <tr key={ element.name }>
-              <td>{element.name}</td>
+              <td data-testid="planet-name">{element.name}</td>
               <td>{element.rotation_period}</td>
               <td>{element.orbital_period}</td>
               <td>{element.diameter}</td>
@@ -51,7 +53,7 @@ function Table() {
           ))}
         </tbody>
       </table>
-    </section>
+    </div>
   );
 }
 
